@@ -103,23 +103,15 @@ for i=1:n
 end
 
 %obliczenia
-% H=obliczH(W,T,[yp xp]);
-% B=zeros(xp*yp,1);
-% for i=1:yp
-%     p=H(i,i);
-%     H(i,:)=0;
-%     H(i,i)=p;
-%     B(i)=V1*p;
-% end
-% for i=pp(1)*yp+pp(2):yp:kp(1)*yp+kp(2)
-%     p=H(i,i);
-%     H(i,:)=0;
-%     H(i,i)=p;
-%     B(i)=V2*p;
-% end
-% V=H\B;
-% K=reshape(V,yp,xp);
-% contour([1:xp],[1:yp],K,50);
+
+b=zeros((xp+1)*(yp+1),1);
+for i=1:yp
+    b(i)=V1*H(i,i);
+end
+
+V=H\b;
+K=reshape(V,yp+1,xp+1);
+contour([1:xp+1],[1:yp+1],K,50);
 
 end
 
