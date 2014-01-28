@@ -71,8 +71,8 @@ T=zeros(m*3/2,4);
 k=1;
 for j=1:y_N-1,
     for i=1:x_N-1,
-        T(k,:,:)	= [N(i,j) N(i+1,j) N(i+1,j+1) 0]
-        T(k+1,:,:)  = [N(i,j) N(i+1,j+1) N(i,j+1) 0]
+        T(k,:,:)	= [N(i,j) N(i+1,j) N(i+1,j+1) 0];
+        T(k+1,:,:)  = [N(i,j) N(i+1,j+1) N(i,j+1) 0];
         k = k+2;
     end
 end
@@ -84,7 +84,7 @@ for i=1:length(T),
     if  w1(1,1) < (xE1+1) || w2(1,1) < (xE1+1) || w3(1,1) < (xE1+1),
         if w1(1,2) > f(w1(1,1)) || w2(1,2) > f(w2(1,1)) || w3(1,2) > f(w3(1,1)),
             T(i,4) = E1;
-        else,
+        else
             T(i,4) = E2;
         end
     else
@@ -93,6 +93,14 @@ for i=1:length(T),
 end
 
 trisurf(T(:,1:3),W(:,1),W(:,2),W(:,2));
+
+n=length(T);
+H=zeros((xp+1)*(yp+1),(xp+1)*(yp+1));
+
+for i=1:n
+    h = calcTriangleH(W(T(i,1),:), W(T(i,2),:), W(T(i,3),:), T(i,4));
+    H(T(i,1:3),T(i,1:3)) = H(T(i,1:3),T(i,1:3)) + h;
+end
 
 %obliczenia
 % H=obliczH(W,T,[yp xp]);
@@ -112,5 +120,6 @@ trisurf(T(:,1:3),W(:,1),W(:,2),W(:,2));
 % V=H\B;
 % K=reshape(V,yp,xp);
 % contour([1:xp],[1:yp],K,50);
+
 end
 
