@@ -111,6 +111,12 @@ for i=1:yp+1
     H(i,i)=tmp;
     b(i)=V1*tmp;
 end
+for i=8*yp+3:yp:11*yp+3
+    tmp=H(i,i);
+    H(i,:)=0;
+    H(i,i)=tmp;
+    b(i)=V2*tmp;
+end
 
 V=H\b;
 K=reshape(V,yp+1,xp+1);
