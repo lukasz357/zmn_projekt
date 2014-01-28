@@ -13,5 +13,5 @@ function [h] = calcTriangleH(w1, w2, w3, e)
     
     h = e * [b1*b1+c1*c1 b1*b2+c1*c2 b1*b3+c1*c3
              b2*b1+c2*c1 b2*b2+c2*c2 b2*b3+c2*c3
-             c3*b1+c3*c1 b3*b2+c3*c2 b3*b3+c3*c3] / 4 * area;
+             c3*b1+c3*c1 b3*b2+c3*c2 b3*b3+c3*c3] / (4 * area);
 end

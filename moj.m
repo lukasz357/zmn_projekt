@@ -1,4 +1,4 @@
-function [] = moj()
+
 %dane wejsciowe
 V1=100;
 V2=110;
@@ -105,13 +105,15 @@ end
 %obliczenia
 
 b=zeros((xp+1)*(yp+1),1);
-for i=1:yp
-    b(i)=V1*H(i,i);
+for i=1:yp+1
+    tmp = H(i,i);
+    H(i,:)=0;
+    H(i,i)=tmp;
+    b(i)=V1*tmp;
 end
 
 V=H\b;
 K=reshape(V,yp+1,xp+1);
 contour([1:xp+1],[1:yp+1],K,50);
 
-end
 
