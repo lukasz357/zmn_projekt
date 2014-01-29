@@ -6,13 +6,11 @@ V2=110;
 E1=100;
 E2=5;
 
-xp=20; %szerokoœæ p³aszczyzny
+xp=10; %szerokoœæ p³aszczyzny
 yp=6;  %wysokoœæ p³aszczyzny
 
 v1Pos = [1 1; yp+1 1];
-v2Pos = [yp/2 xp-xp/5; yp/2 xp+1];
-
-nodeCount =(xp+1)*(yp+1);
+v2Pos = [round(yp/2) round(xp-xp/5); round(yp/2) xp+1];
 
 a = round(yp/2);
 
@@ -59,13 +57,13 @@ W=zeros(nodeCount,2);
 k=1;
 for i=1:x_len,
     for j=1:y_len,
-        W(k,1)=X(i);
-        W(k,2)=Y(j);
+        W(k,1)=Y(j);
+        W(k,2)=X(i);
         k = k+1;
     end
 end
 
-N=reshape([1:nodeCount],yp+1,xp+1);
+N=reshape([1:nodeCount],y_len,x_len);
 
 % Utworzenie trójk¹tów
 f = @(x)((a/xE1)*x); %funkcja do sprawdzania czy punkt le¿y na ukoœnej
@@ -97,7 +95,7 @@ for i=1:length(T),
     end
 end
 
-trisurf(T(:,1:3),W(:,1),W(:,2),W(:,2));
+%trisurf(T(:,1:3),W(:,1),W(:,2),W(:,2));
 
 n=length(T);
 H=zeros(nodeCount,nodeCount);
@@ -110,34 +108,34 @@ end
 %obliczenia
 
 b=zeros(nodeCount,1);
-for i=1:yp
-    p=H(i,i);
-    H(i,:)=0;
-    H(i,i)=p;
-    b(i)=V1*p;
+% for i=1:yp
+%     p=H(i,i);
+%     H(i,:)=0;
+%     H(i,i)=p;
+%     b(i)=V1*p;
+% end
+for i = v1Pos(1, 2):v1Pos(2, 2)
+    for j=v1Pos(1, 1):v1Pos(2, 1)
+        c = ((yp+1)*(i-1))+j;
+        tmp = H(c, c);
+        H(c,:)=0;
+        H(c, c)=tmp;
+        b(c)=V1*tmp;
+    end
 end
-% for i = v1Pos(1, 2):yp:v1Pos(2, 2)
-%     for j=v1Pos(1, 1):v1Pos(2, 1)
-%         c = i*j;
-%         tmp = H(c, c);
-%         H(c,:)=0;
-%         H(c, c)=tmp;
-%         b(c)=V1*tmp;
-%     end
-% end
 % 
-% for i = v2Pos(1, 2):yp:v2Pos(2, 2)
-%     for j=v2Pos(1, 1):v2Pos(2, 1)
-%         c = i*j;
-%         tmp = H(c, c);
-%         H(c,:)=0;
-%         H(c, c)=tmp;
-%         b(c)=V2*tmp;
-%     end
-% end
+for i = v2Pos(1, 2):v2Pos(2, 2)
+    for j=v2Pos(1, 1):v2Pos(2, 1)
+        c = ((yp+1)*(i-1))+j;
+        tmp = H(c, c);
+        H(c,:)=0;
+        H(c, c)=tmp;
+        b(c)=V2*tmp;
+    end
+end
 
 V=H\b;
-K=reshape(V,yp+1,xp+1);
-contour([1:xp+1],[1:yp+1],K,50);
+K=reshape(V,y_len,x_len);
+contour([1:x_len],[1:y_len],K,50);
 
 
