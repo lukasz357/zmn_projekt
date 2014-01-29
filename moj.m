@@ -9,8 +9,7 @@ E2=5;
 xp=20; %szerokoœæ p³aszczyzny
 yp=16;  %wysokoœæ p³aszczyzny
 
-v1Pos = [1 1; yp+1 1];
-v2Pos = [round(yp/2)+1 round(xp-xp/5); round(yp/2)+1 xp+1];
+
 
 a = round(yp/2);
 
@@ -107,18 +106,16 @@ end
 
 %obliczenia
 
+v1Pos = [1 1; y_len 1];
+v2Pos = [round(y_len/2) round(x_len-x_len/5); round(y_len/2) x_len];
+
 b=zeros(nodeCount,1);
-% for i=1:yp
-%     p=H(i,i);
-%     H(i,:)=0;
-%     H(i,i)=p;
-%     b(i)=V1*p;
-% end
+
 for i = v1Pos(1, 2):v1Pos(2, 2)
     for j=v1Pos(1, 1):v1Pos(2, 1)
         c = ((yp+1)*(i-1))+j;
         tmp = H(c, c);
-        H(c,:)=0;
+        H(c, :)=0;
         H(c, c)=tmp;
         b(c)=V1*tmp;
     end
@@ -137,5 +134,5 @@ end
 V=H\b;
 K=reshape(V,y_len,x_len);
 contour([1:x_len],[1:y_len],flipud(K),50);
-
+%mesh([1:x_len],[1:y_len],flipud(K));
 
