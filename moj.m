@@ -1,14 +1,18 @@
-
+clear all;
+close all;
 %dane wejsciowe
 V1=100;
 V2=110;
 E1=100;
 E2=5;
 
-xp=10; %szerokoœæ p³aszczyzny
+xp=20; %szerokoœæ p³aszczyzny
 yp=6;  %wysokoœæ p³aszczyzny
 
-m=xp*yp;
+v1Pos = [1 1; yp+1 1];
+v2Pos = [yp/2 xp-xp/5; yp/2 xp+1];
+
+nodeCount =(xp+1)*(yp+1);
 
 a = round(yp/2);
 
@@ -50,7 +54,8 @@ end
 
 x_len = length(X);
 y_len = length(Y);
-W=zeros(x_len*y_len,2);
+nodeCount = x_len * y_len;
+W=zeros(nodeCount,2);
 k=1;
 for i=1:x_len,
     for j=1:y_len,
@@ -60,14 +65,14 @@ for i=1:x_len,
     end
 end
 
-N=reshape([1:(yp+1)*(xp+1)],yp+1,xp+1);
+N=reshape([1:nodeCount],yp+1,xp+1);
 
 % Utworzenie trójk¹tów
 f = @(x)((a/xE1)*x); %funkcja do sprawdzania czy punkt le¿y na ukoœnej
 
 [x_N, y_N] = size(N);
 
-T=zeros(m*3/2,4);
+T=zeros(round(nodeCount*3/2),4);
 k=1;
 for j=1:y_N-1,
     for i=1:x_N-1,
@@ -95,7 +100,7 @@ end
 trisurf(T(:,1:3),W(:,1),W(:,2),W(:,2));
 
 n=length(T);
-H=zeros((xp+1)*(yp+1),(xp+1)*(yp+1));
+H=zeros(nodeCount,nodeCount);
 
 for i=1:n
     h = calcTriangleH(W(T(i,1),:), W(T(i,2),:), W(T(i,3),:), T(i,4));
@@ -104,19 +109,32 @@ end
 
 %obliczenia
 
-b=zeros((xp+1)*(yp+1),1);
-for i=1:yp+1
-    tmp = H(i,i);
+b=zeros(nodeCount,1);
+for i=1:yp
+    p=H(i,i);
     H(i,:)=0;
-    H(i,i)=tmp;
-    b(i)=V1*tmp;
+    H(i,i)=p;
+    b(i)=V1*p;
 end
-for i=8*yp+3:yp:11*yp+3
-    tmp=H(i,i);
-    H(i,:)=0;
-    H(i,i)=tmp;
-    b(i)=V2*tmp;
-end
+% for i = v1Pos(1, 2):yp:v1Pos(2, 2)
+%     for j=v1Pos(1, 1):v1Pos(2, 1)
+%         c = i*j;
+%         tmp = H(c, c);
+%         H(c,:)=0;
+%         H(c, c)=tmp;
+%         b(c)=V1*tmp;
+%     end
+% end
+% 
+% for i = v2Pos(1, 2):yp:v2Pos(2, 2)
+%     for j=v2Pos(1, 1):v2Pos(2, 1)
+%         c = i*j;
+%         tmp = H(c, c);
+%         H(c,:)=0;
+%         H(c, c)=tmp;
+%         b(c)=V2*tmp;
+%     end
+% end
 
 V=H\b;
 K=reshape(V,yp+1,xp+1);
