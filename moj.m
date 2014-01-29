@@ -6,11 +6,11 @@ V2=110;
 E1=100;
 E2=5;
 
-xp=10; %szerokoœæ p³aszczyzny
-yp=6;  %wysokoœæ p³aszczyzny
+xp=20; %szerokoœæ p³aszczyzny
+yp=16;  %wysokoœæ p³aszczyzny
 
 v1Pos = [1 1; yp+1 1];
-v2Pos = [round(yp/2) round(xp-xp/5); round(yp/2) xp+1];
+v2Pos = [round(yp/2)+1 round(xp-xp/5); round(yp/2)+1 xp+1];
 
 a = round(yp/2);
 
@@ -84,8 +84,8 @@ for i=1:length(T),
     w1 = W(T(i,1),:);
     w2 = W(T(i,2),:);
     w3 = W(T(i,3),:);
-    if  w1(1,1) < (xE1+1) || w2(1,1) < (xE1+1) || w3(1,1) < (xE1+1),
-        if w1(1,2) > f(w1(1,1)) || w2(1,2) > f(w2(1,1)) || w3(1,2) > f(w3(1,1)),
+    if  w1(2) < (xE1+1) || w2(2) < (xE1+1) || w3(2) < (xE1+1),
+        if w1(1) > f(w1(2)) || w2(1) > f(w2(2)) || w3(1) > f(w3(2)),
             T(i,4) = E1;
         else
             T(i,4) = E2;
@@ -136,6 +136,6 @@ end
 
 V=H\b;
 K=reshape(V,y_len,x_len);
-contour([1:x_len],[1:y_len],K,50);
+contour([1:x_len],[1:y_len],flipud(K),50);
 
 
