@@ -9,24 +9,10 @@ E2=5;
 xp=20; %szerokoœæ p³aszczyzny
 yp=16;  %wysokoœæ p³aszczyzny
 
-
-
 a = round(yp/2);
 
 xE1 = round(xp*3/10);  %szerokoœæ E1
-xE2 = round(xp-xE1);
-xV1 = round(xp *2/10); %d³ugoœæ p³ytki wym. V1
 
-
-% yw=round(yp/10);   %szerokoœæ wciêcia
-% yb=round(yp*3/4);   %odleg³oœæ wciêcia od górnego brzegu
-% y0=round(yp/15);  %odleg³oœæ p³ytki od wciêcia
-% x0=round(xp/10);  %d³ugoœæ p³ytko
-% pp=[xw-x0 yb-yw-y0];  %po³o¿enie pocz¹tku p³ytki
-% kp=[xw yb-yw-y0];  %po³o¿enie koñca p³ytki
-% %podzia³ p³¹szczyzny na trójk¹ty
-% x=1:xp;
-% y=1:yp;
 
 ilosc_poziomych = a*2+1;
 
